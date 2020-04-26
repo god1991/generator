@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.api;
 
@@ -42,7 +42,7 @@ import org.mybatis.generator.internal.XmlFileMergerJaxp;
 
 /**
  * This class is the main interface to MyBatis generator. A typical execution of the tool involves these steps:
- * 
+ *
  * <ol>
  * <li>Create a Configuration object. The Configuration can be the result of a parsing the XML configuration file, or it
  * can be created solely in Java.</li>
@@ -64,14 +64,14 @@ public class MyBatisGenerator {
     private List<GeneratedXmlFile> generatedXmlFiles = new ArrayList<>();
 
     private List<GeneratedKotlinFile> generatedKotlinFiles = new ArrayList<>();
-    
+
     private List<String> warnings;
 
     private Set<String> projects = new HashSet<>();
 
     /**
      * Constructs a MyBatisGenerator object.
-     * 
+     *
      * @param configuration
      *            The configuration for this invocation
      * @param shellCallback
@@ -89,7 +89,7 @@ public class MyBatisGenerator {
      *             if the specified configuration is invalid
      */
     public MyBatisGenerator(Configuration configuration, ShellCallback shellCallback,
-            List<String> warnings) throws InvalidConfigurationException {
+                            List<String> warnings) throws InvalidConfigurationException {
         super();
         if (configuration == null) {
             throw new IllegalArgumentException(getString("RuntimeError.2")); //$NON-NLS-1$
@@ -177,7 +177,7 @@ public class MyBatisGenerator {
      *             if the method is canceled through the ProgressCallback
      */
     public void generate(ProgressCallback callback, Set<String> contextIds,
-            Set<String> fullyQualifiedTableNames) throws SQLException,
+                         Set<String> fullyQualifiedTableNames) throws SQLException,
             IOException, InterruptedException {
         generate(callback, contextIds, fullyQualifiedTableNames, true);
     }
@@ -208,7 +208,7 @@ public class MyBatisGenerator {
      *             if the method is canceled through the ProgressCallback
      */
     public void generate(ProgressCallback callback, Set<String> contextIds,
-            Set<String> fullyQualifiedTableNames, boolean writeFiles) throws SQLException,
+                         Set<String> fullyQualifiedTableNames, boolean writeFiles) throws SQLException,
             IOException, InterruptedException {
 
         if (callback == null) {
@@ -302,7 +302,7 @@ public class MyBatisGenerator {
             if (targetFile.exists()) {
                 if (shellCallback.isMergeSupported()) {
                     source = shellCallback.mergeJavaFile(gjf
-                            .getFormattedContent(), targetFile,
+                                    .getFormattedContent(), targetFile,
                             MergeConstants.getOldElementTags(),
                             gjf.getFileEncoding());
                 } else if (shellCallback.isOverwriteEnabled()) {
@@ -326,6 +326,7 @@ public class MyBatisGenerator {
             writeFile(targetFile, source, gjf.getFileEncoding());
         } catch (ShellException e) {
             warnings.add(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -463,7 +464,7 @@ public class MyBatisGenerator {
      * Returns the list of generated Java files after a call to one of the generate methods.
      * This is useful if you prefer to process the generated files yourself and do not want
      * the generator to write them to disk.
-     *  
+     *
      * @return the list of generated Java files
      */
     public List<GeneratedJavaFile> getGeneratedJavaFiles() {
@@ -474,7 +475,7 @@ public class MyBatisGenerator {
      * Returns the list of generated Kotlin files after a call to one of the generate methods.
      * This is useful if you prefer to process the generated files yourself and do not want
      * the generator to write them to disk.
-     *  
+     *
      * @return the list of generated Kotlin files
      */
     public List<GeneratedKotlinFile> getGeneratedKotlinFiles() {
@@ -485,7 +486,7 @@ public class MyBatisGenerator {
      * Returns the list of generated XML files after a call to one of the generate methods.
      * This is useful if you prefer to process the generated files yourself and do not want
      * the generator to write them to disk.
-     *  
+     *
      * @return the list of generated XML files
      */
     public List<GeneratedXmlFile> getGeneratedXmlFiles() {

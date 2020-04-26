@@ -64,8 +64,8 @@ public abstract class AbstractDynamicSqlMapperGenerator extends AbstractJavaClie
         Interface interfaze = new Interface(type);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
         context.getCommentGenerator().addJavaFileComment(interfaze);
-        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper")); //$NON-NLS-1$
-        interfaze.addAnnotation("@Mapper"); //$NON-NLS-1$
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository")); //$NON-NLS-1$
+        interfaze.addAnnotation("@Repository"); //$NON-NLS-1$
 
         String rootInterface = introspectedTable
                 .getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);

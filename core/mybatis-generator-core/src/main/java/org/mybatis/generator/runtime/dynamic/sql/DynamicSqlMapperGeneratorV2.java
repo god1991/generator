@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.runtime.dynamic.sql;
 
@@ -24,43 +24,20 @@ import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.runtime.dynamic.sql.elements.FieldAndImports;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicCountMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicDeleteMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicInsertMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicMultipleInsertHelperMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicMultipleInsertMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicSelectManyMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicSelectOneMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.BasicUpdateMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.DeleteByPrimaryKeyMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.GeneralCountMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.GeneralDeleteMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.GeneralSelectDistinctMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.GeneralSelectMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.GeneralSelectOneMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.GeneralUpdateMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.InsertMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.InsertMultipleMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.InsertSelectiveMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.SelectByPrimaryKeyMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.SelectListGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.UpdateAllColumnsMethodGenerator;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.UpdateByPrimaryKeyMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.UpdateByPrimaryKeySelectiveMethodGeneratorV2;
-import org.mybatis.generator.runtime.dynamic.sql.elements.v2.UpdateSelectiveColumnsMethodGenerator;
+import org.mybatis.generator.runtime.dynamic.sql.elements.v2.*;
 
 public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerator {
 
     public DynamicSqlMapperGeneratorV2(String project) {
         super(project);
     }
-    
+
     @Override
     public List<CompilationUnit> getCompilationUnits() {
         progressCallback.startTask(getString("Progress.17", //$NON-NLS-1$
                 introspectedTable.getFullyQualifiedTable().toString()));
         preCalculate();
-        
+
         Interface interfaze = createBasicInterface();
 
         TopLevelClass supportClass = getSupportClass();
@@ -78,7 +55,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
         addBasicSelectOneMethod(interfaze);
         addBasicSelectManyMethod(interfaze);
         addBasicUpdateMethod(interfaze);
-        
+
         addCountByExampleMethod(interfaze);
         addDeleteByExampleMethod(interfaze);
         addDeleteByPrimaryKeyMethod(interfaze);
@@ -94,7 +71,9 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
         addUpdateSelectiveMethod(interfaze);
         addUpdateByPrimaryKeyMethod(interfaze);
         addUpdateByPrimaryKeySelectiveMethod(interfaze);
-        
+
+        //自行设计的生成代码
+        addSelectByExampleMethodDiy(interfaze);
         List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().clientGenerated(interfaze, introspectedTable)) {
             answer.add(interfaze);
@@ -114,10 +93,10 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
-    
+
     protected void addBasicInsertMultipleMethod(Interface interfaze) {
         BasicMultipleInsertMethodGenerator generator = new BasicMultipleInsertMethodGenerator.Builder()
                 .withContext(context)
@@ -125,7 +104,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -136,7 +115,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -147,7 +126,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -157,7 +136,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withIntrospectedTable(introspectedTable)
                 .withTableFieldName(tableFieldName)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -167,7 +146,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withIntrospectedTable(introspectedTable)
                 .withTableFieldName(tableFieldName)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -177,7 +156,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withFragmentGenerator(fragmentGenerator)
                 .withIntrospectedTable(introspectedTable)
                 .build();
-        
+
         FieldAndImports fieldAndImports = generator.generateFieldAndImports();
 
         if (fieldAndImports != null && generator.callPlugins(fieldAndImports.getField(), interfaze)) {
@@ -186,7 +165,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
             interfaze.addStaticImports(fieldAndImports.getStaticImports());
         }
     }
-    
+
     protected void addSelectByExampleMethod(Interface interfaze) {
         addGeneralSelectOneMethod(interfaze);
         GeneralSelectMethodGenerator generator = new GeneralSelectMethodGenerator.Builder()
@@ -195,7 +174,19 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
+        generate(interfaze, generator);
+    }
+
+    protected void addSelectByExampleMethodDiy(Interface interfaze) {
+        //addGeneralSelectOneMethod(interfaze);
+        GeneralSelectMethodDiyGenerator generator = new GeneralSelectMethodDiyGenerator.Builder()
+                .withContext(context)
+                .withIntrospectedTable(introspectedTable)
+                .withTableFieldName(tableFieldName)
+                .withRecordType(recordType)
+                .build();
+
         generate(interfaze, generator);
     }
 
@@ -206,7 +197,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -217,7 +208,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -227,7 +218,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withIntrospectedTable(introspectedTable)
                 .withTableFieldName(tableFieldName)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -239,7 +230,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withFragmentGenerator(fragmentGenerator)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -251,7 +242,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withFragmentGenerator(fragmentGenerator)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -264,7 +255,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withRecordType(recordType)
                 .withResultMapId(resultMapId)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -275,7 +266,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withFragmentGenerator(fragmentGenerator)
                 .withTableFieldName(tableFieldName)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -286,7 +277,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -298,7 +289,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -310,39 +301,39 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
     protected void addUpdateByPrimaryKeySelectiveMethod(Interface interfaze) {
         UpdateByPrimaryKeySelectiveMethodGeneratorV2 generator =
                 new UpdateByPrimaryKeySelectiveMethodGeneratorV2.Builder()
-                .withContext(context)
-                .withFragmentGenerator(fragmentGenerator)
-                .withIntrospectedTable(introspectedTable)
-                .withTableFieldName(tableFieldName)
-                .withRecordType(recordType)
-                .build();
-        
+                        .withContext(context)
+                        .withFragmentGenerator(fragmentGenerator)
+                        .withIntrospectedTable(introspectedTable)
+                        .withTableFieldName(tableFieldName)
+                        .withRecordType(recordType)
+                        .build();
+
         generate(interfaze, generator);
     }
-    
+
     protected void addBasicCountMethod(Interface interfaze) {
         BasicCountMethodGenerator generator = new BasicCountMethodGenerator.Builder()
                 .withContext(context)
                 .withIntrospectedTable(introspectedTable)
                 .build();
-        
+
         generate(interfaze, generator);
     }
-    
+
     protected void addBasicDeleteMethod(Interface interfaze) {
         BasicDeleteMethodGenerator generator = new BasicDeleteMethodGenerator.Builder()
                 .withContext(context)
                 .withIntrospectedTable(introspectedTable)
                 .withTableFieldName(tableFieldName)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -354,7 +345,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 
@@ -366,17 +357,17 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
                 .withTableFieldName(tableFieldName)
                 .withRecordType(recordType)
                 .build();
-        
+
         generate(interfaze, generator);
     }
-    
+
     protected void addBasicUpdateMethod(Interface interfaze) {
         BasicUpdateMethodGenerator generator = new BasicUpdateMethodGenerator.Builder()
                 .withContext(context)
                 .withIntrospectedTable(introspectedTable)
                 .withTableFieldName(tableFieldName)
                 .build();
-        
+
         generate(interfaze, generator);
     }
 }

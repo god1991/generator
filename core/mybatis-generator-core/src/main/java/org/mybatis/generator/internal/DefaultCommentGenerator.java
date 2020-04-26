@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.internal;
 
@@ -52,7 +52,9 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
     private boolean suppressAllComments;
 
-    /** If suppressAllComments is true, this option is ignored. */
+    /**
+     * If suppressAllComments is true, this option is ignored.
+     */
     private boolean addRemarkComments;
 
     private SimpleDateFormat dateFormat;
@@ -153,7 +155,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
      * Returns a formated date string to include in the Javadoc tag and XML
      * comments. You may return null if you do not want the date in these
      * documentation elements.
-     * 
+     *
      * @return a string representing the current timestamp, or null
      */
     protected String getDateString() {
@@ -256,7 +258,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
     @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable,
-            IntrospectedColumn introspectedColumn) {
+                                IntrospectedColumn introspectedColumn) {
         if (suppressAllComments) {
             return;
         }
@@ -329,7 +331,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
     @Override
     public void addGetterComment(Method method, IntrospectedTable introspectedTable,
-            IntrospectedColumn introspectedColumn) {
+                                 IntrospectedColumn introspectedColumn) {
         if (suppressAllComments) {
             return;
         }
@@ -361,7 +363,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
     @Override
     public void addSetterComment(Method method, IntrospectedTable introspectedTable,
-            IntrospectedColumn introspectedColumn) {
+                                 IntrospectedColumn introspectedColumn) {
         if (suppressAllComments) {
             return;
         }
@@ -396,37 +398,42 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
     @Override
     public void addGeneralMethodAnnotation(Method method, IntrospectedTable introspectedTable,
-            Set<FullyQualifiedJavaType> imports) {
+                                           Set<FullyQualifiedJavaType> imports) {
         imports.add(new FullyQualifiedJavaType("javax.annotation.Generated")); //$NON-NLS-1$
-        String comment = "Source Table: " + introspectedTable.getFullyQualifiedTable().toString(); //$NON-NLS-1$
+        //  String comment = "Source Table: " + introspectedTable.getFullyQualifiedTable().toString(); //$NON-NLS-1$
+        String comment = ""; //$NON-NLS-1$
         method.addAnnotation(getGeneratedAnnotation(comment));
     }
 
     @Override
     public void addGeneralMethodAnnotation(Method method, IntrospectedTable introspectedTable,
-            IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
+                                           IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
         imports.add(new FullyQualifiedJavaType("javax.annotation.Generated")); //$NON-NLS-1$
-        String comment = "Source field: " //$NON-NLS-1$
-                + introspectedTable.getFullyQualifiedTable().toString() + "." //$NON-NLS-1$
-                + introspectedColumn.getActualColumnName();
+//        String comment = "Source field: " //$NON-NLS-1$
+//                + introspectedTable.getFullyQualifiedTable().toString() + "." //$NON-NLS-1$
+//                + introspectedColumn.getActualColumnName();
+        String comment = introspectedColumn.getRemarks();
         method.addAnnotation(getGeneratedAnnotation(comment));
     }
 
     @Override
     public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
-            Set<FullyQualifiedJavaType> imports) {
+                                   Set<FullyQualifiedJavaType> imports) {
         imports.add(new FullyQualifiedJavaType("javax.annotation.Generated")); //$NON-NLS-1$
-        String comment = "Source Table: " + introspectedTable.getFullyQualifiedTable().toString(); //$NON-NLS-1$
+        String comment = ""; //$NON-NLS-1$
+        //   String comment = "Source Table: " + introspectedTable.getFullyQualifiedTable().toString(); //$NON-NLS-1$
         field.addAnnotation(getGeneratedAnnotation(comment));
     }
 
     @Override
     public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
-            IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
+                                   IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
         imports.add(new FullyQualifiedJavaType("javax.annotation.Generated")); //$NON-NLS-1$
-        String comment = "Source field: " //$NON-NLS-1$
-                + introspectedTable.getFullyQualifiedTable().toString() + "." //$NON-NLS-1$
-                + introspectedColumn.getActualColumnName();
+        String comment = introspectedColumn.getRemarks();
+        //"Source field: " //$NON-NLS-1$
+        //  + introspectedTable.getFullyQualifiedTable().toString() + "." //$NON-NLS-1$
+        //  + introspectedColumn.getActualColumnName();
+
         field.addAnnotation(getGeneratedAnnotation(comment));
 
         if (!suppressAllComments && addRemarkComments) {
@@ -445,31 +452,33 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
     @Override
     public void addClassAnnotation(InnerClass innerClass, IntrospectedTable introspectedTable,
-            Set<FullyQualifiedJavaType> imports) {
+                                   Set<FullyQualifiedJavaType> imports) {
         imports.add(new FullyQualifiedJavaType("javax.annotation.Generated")); //$NON-NLS-1$
-        String comment = "Source Table: " + introspectedTable.getFullyQualifiedTable().toString(); //$NON-NLS-1$
+        //String comment = "Source Table: " + introspectedTable.getFullyQualifiedTable().toString(); //$NON-NLS-1$
+        String comment = ""; //$NON-NLS-1$
         innerClass.addAnnotation(getGeneratedAnnotation(comment));
     }
 
     private String getGeneratedAnnotation(String comment) {
         StringBuilder buffer = new StringBuilder();
         buffer.append("@Generated("); //$NON-NLS-1$
+
         if (suppressAllComments) {
             buffer.append('\"');
         } else {
             buffer.append("value=\""); //$NON-NLS-1$
         }
 
-        buffer.append(MyBatisGenerator.class.getName());
+        buffer.append("MyBatisGenerator");
         buffer.append('\"');
 
-        if (!suppressDate && !suppressAllComments) {
-            buffer.append(", date=\""); //$NON-NLS-1$
-            buffer.append(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now()));
-            buffer.append('\"');
-        }
+//        if (!suppressDate && !suppressAllComments) {
+//            buffer.append(", date=\""); //$NON-NLS-1$
+//            buffer.append(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now()));
+//            buffer.append('\"');
+//        }
 
-        if (!suppressAllComments) {
+        if (!suppressAllComments && comment != null && comment.length() > 0) {
             buffer.append(", comments=\""); //$NON-NLS-1$
             buffer.append(comment);
             buffer.append('\"');
