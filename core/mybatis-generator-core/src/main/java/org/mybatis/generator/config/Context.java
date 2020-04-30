@@ -463,12 +463,12 @@ public class Context extends PropertyHolder {
                 generatedKotlinFiles.addAll(introspectedTable
                         .getGeneratedKotlinFiles());
 
-//                generatedJavaFiles.addAll(pluginAggregator
-//                        .contextGenerateAdditionalJavaFiles(introspectedTable));
-//                generatedXmlFiles.addAll(pluginAggregator
-//                        .contextGenerateAdditionalXmlFiles(introspectedTable));
-//                generatedKotlinFiles.addAll(pluginAggregator
-//                        .contextGenerateAdditionalKotlinFiles(introspectedTable));
+                generatedJavaFiles.addAll(pluginAggregator
+                        .contextGenerateAdditionalJavaFiles(introspectedTable));
+                generatedXmlFiles.addAll(pluginAggregator
+                        .contextGenerateAdditionalXmlFiles(introspectedTable));
+                generatedKotlinFiles.addAll(pluginAggregator
+                        .contextGenerateAdditionalKotlinFiles(introspectedTable));
             }
         }
 
