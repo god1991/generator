@@ -72,7 +72,7 @@ public class DynamicSqlMapperGeneratorV2 extends AbstractDynamicSqlMapperGenerat
         addUpdateByPrimaryKeyMethod(interfaze);
         addUpdateByPrimaryKeySelectiveMethod(interfaze);
 
-        //自行设计的生成代码
+        //minyang 自行设计的生成代码
         addSelectByExampleMethodDiy(interfaze);
         List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().clientGenerated(interfaze, introspectedTable)) {

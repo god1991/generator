@@ -51,6 +51,11 @@ public class GeneratedJavaFile extends GeneratedFile {
         return compilationUnit.getType().getShortNameWithoutTypeArguments() + ".java"; //$NON-NLS-1$
     }
 
+    public String setFileName(String name) {
+
+        return compilationUnit.getType().baseShortName=name+".java";
+    }
+
     @Override
     public String getTargetPackage() {
         return compilationUnit.getType().getPackageName();

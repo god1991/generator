@@ -151,7 +151,7 @@ public class RowBoundsPlugin extends PluginAdapter {
      * Use the method copy constructor to create a new method, then
      * add the rowBounds parameter.
      * 
-     * @param fullyQualifiedTable the table
+     * @param interfaze the table
      * @param method the method
      */
     private void copyAndAddMethod(Method method, Interface interfaze) {

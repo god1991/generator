@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.api.dom.java;
 
@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 
 public class FullyQualifiedJavaType implements
         Comparable<FullyQualifiedJavaType> {
-    
+
     private static final String JAVA_LANG = "java.lang"; //$NON-NLS-1$
 
     private static FullyQualifiedJavaType intInstance = null;
@@ -42,7 +42,7 @@ public class FullyQualifiedJavaType implements
     private static FullyQualifiedJavaType generatedCriteriaInstance = null;
 
     /** The short name without any generic arguments. */
-    private String baseShortName;
+    public String baseShortName;
 
     /** The fully qualified name without any generic arguments. */
     private String baseQualifiedName;
@@ -475,7 +475,7 @@ public class FullyQualifiedJavaType implements
 
     /**
      * Returns the package name of a fully qualified type.
-     * 
+     *
      * <p>This method calculates the package as the part of the fully qualified name up to, but not including, the last
      * element. Therefore, it does not support fully qualified inner classes. Not totally fool proof, but correct in
      * most instances.

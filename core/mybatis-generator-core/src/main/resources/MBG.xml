@@ -2,17 +2,30 @@
         "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <context id="dsql" targetRuntime="MyBatis3DynamicSql">
+    <context id="dsql" targetRuntime="MyBatis3Simple">
+        <commentGenerator>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://dev.mysql.gaodunwangxiao.com:3306/smo?serverTimezone=Asia/Shanghai&amp;nullCatalogMeansCurrent=true"
                         userId="smo_user" password="smo_user"/>
 
-        <javaModelGenerator targetPackage="model" targetProject="D:/gggg"/>
+        <javaModelGenerator targetPackage="com.model" targetProject="src/main/java">
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources"/>
+        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+            type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
+            type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
+            type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.dao" targetProject="src/main/java"/>
 
-        <javaClientGenerator targetPackage="mapper" targetProject="D:/gggg"/>
-
-        <table tableName="smo_group_info">
+        <table tableName="smo_tags_relation">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+
         </table>
 
     </context>
