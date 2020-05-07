@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.codegen.mybatis3.model;
 
@@ -104,8 +104,51 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
                     topLevelClass.addMethod(method);
                 }
             }
-        }
 
+            Field fieldClause = new Field(field.getName() + "Clause", FullyQualifiedJavaType.getStringInstance()); //$NON-NLS-1$
+            fieldClause.setVisibility(JavaVisibility.PROTECTED);
+            commentGenerator.addFieldComment(fieldClause, introspectedTable);
+            topLevelClass.addField(fieldClause);
+            Method methodClause = new Method("getClause" +captureName(fieldClause.getName()) );
+            methodClause.setVisibility(JavaVisibility.PUBLIC);
+            methodClause.setReturnType(FullyQualifiedJavaType.getStringInstance());
+            methodClause.addBodyLine("return " + fieldClause.getName() + ";"); //$NON-NLS-1$
+            commentGenerator.addGeneralMethodComment(methodClause, introspectedTable);
+            topLevelClass.addMethod(methodClause);
+
+            methodClause = new Method("set" + captureName(fieldClause.getName()) );
+            methodClause.setName(methodClause.getName());
+            methodClause.setVisibility(JavaVisibility.PUBLIC);
+            methodClause.addParameter(new Parameter(FullyQualifiedJavaType
+                    .getStringInstance(), fieldClause.getName()));
+
+            methodClause.addBodyLine("this." + fieldClause.getName() + " = " + fieldClause.getName() + ";"); //$NON-NLS-1$
+            commentGenerator.addGeneralMethodComment(methodClause, introspectedTable);
+            topLevelClass.addMethod(methodClause);
+
+        }
+        //minyang 怎加orderBy   orderByClause
+
+        {
+            Field field = new Field("orderByClause", FullyQualifiedJavaType.getStringInstance()); //$NON-NLS-1$
+            field.setVisibility(JavaVisibility.PROTECTED);
+            commentGenerator.addFieldComment(field, introspectedTable);
+            topLevelClass.addField(field);
+            Method method = new Method("setOrderByClause"); //$NON-NLS-1$
+            method.setVisibility(JavaVisibility.PUBLIC);
+            method.addParameter(new Parameter(FullyQualifiedJavaType
+                    .getStringInstance(), "orderByClause")); //$NON-NLS-1$
+            method.addBodyLine("this.orderByClause = orderByClause;"); //$NON-NLS-1$
+            commentGenerator.addGeneralMethodComment(method, introspectedTable);
+            topLevelClass.addMethod(method);
+
+            method = new Method("getOrderByClause"); //$NON-NLS-1$
+            method.setVisibility(JavaVisibility.PUBLIC);
+            method.setReturnType(FullyQualifiedJavaType.getStringInstance());
+            method.addBodyLine("return orderByClause;"); //$NON-NLS-1$
+            commentGenerator.addGeneralMethodComment(method, introspectedTable);
+            topLevelClass.addMethod(method);
+        }
         List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().modelBaseRecordClassGenerated(topLevelClass,
                 introspectedTable)) {
@@ -156,4 +199,10 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
 
         topLevelClass.addMethod(method);
     }
+
+    public static String captureName(String name) {
+        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return name;
+    }
+
 }

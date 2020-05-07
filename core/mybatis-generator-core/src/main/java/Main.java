@@ -1,5 +1,6 @@
 
 
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.datasource.pooled.PooledDataSourceFactory;
 import org.apache.ibatis.mapping.Environment;
@@ -38,7 +39,7 @@ public class Main {
 
     public static void main(String[] args) {
         init();
-
+       // get();
 
     }
 
@@ -109,9 +110,9 @@ public class Main {
     public static void get() {
         Properties properties = new Properties();
         properties.setProperty("driver", "com.mysql.cj.jdbc.Driver");
-        properties.setProperty("url", "jdbc:mysql://dev.mysql.gaodunwangxiao.com:3306/smo?serverTimezone=Asia/Shanghai");
-        properties.setProperty("username", "smo_user");
-        properties.setProperty("password", "smo_user");
+        properties.setProperty("url", "jdbc:mysql://127.0.0.1:3306/smo?serverTimezone=Asia/Shanghai");
+        properties.setProperty("username", "root");
+//        properties.setProperty("password", "smo_user");
         PooledDataSourceFactory pooledDataSourceFactory = new PooledDataSourceFactory();
         pooledDataSourceFactory.setProperties(properties);
         DataSource dataSource = pooledDataSourceFactory.getDataSource();
@@ -119,13 +120,26 @@ public class Main {
         Environment environment = new Environment("development", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
 
-
         configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
         configuration.setCacheEnabled(true);
         configuration.setLazyLoadingEnabled(false);
         configuration.setAggressiveLazyLoading(true);
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+//        configuration.addMapper(SmoTagInfoMapper.class);
+//        //  configuration.getTypeAliasRegistry().registerAlias(SmoTagInfo.class);
+//
+//        configuration.setCacheEnabled(false);
+//
+//        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+//        SqlSession sqlSession = sqlSessionFactory.openSession();
+//        SmoTagInfoMapper mapper = sqlSession.getMapper(SmoTagInfoMapper.class);
+//        SmoTagInfo s1 = new SmoTagInfo();
+//        int insert = mapper.insert(s1);
+//        System.out.println(insert);
+//        List<SmoTagInfo> smoTagInfos = mapper.selectAll();
+//        for (SmoTagInfo smoTagInfo : smoTagInfos) {
+//            System.out.println(smoTagInfo);
+//        }
+
 
     }
 }

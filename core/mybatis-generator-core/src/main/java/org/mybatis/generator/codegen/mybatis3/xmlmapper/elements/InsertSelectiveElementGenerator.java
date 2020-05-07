@@ -36,7 +36,7 @@ public class InsertSelectiveElementGenerator extends
         XmlElement answer = new XmlElement("insert"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getInsertSelectiveStatementId())); //$NON-NLS-1$
+                "id", "insertSelective")); //$NON-NLS-1$
 
         FullyQualifiedJavaType parameterType = introspectedTable.getRules()
                 .calculateAllFieldsClass();

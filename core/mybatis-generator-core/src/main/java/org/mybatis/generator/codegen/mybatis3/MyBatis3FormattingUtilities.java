@@ -49,6 +49,18 @@ public class MyBatis3FormattingUtilities {
 
         return sb.toString();
     }
+    public static String getParameterTrueClause(
+            IntrospectedColumn introspectedColumn, String prefix) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("${"); //$NON-NLS-1$
+        sb.append(introspectedColumn.getJavaProperty(prefix));
+        sb.append("Clause"); //$NON-NLS-1$
+
+        sb.append('}');
+
+        return sb.toString();
+    }
 
     /**
      * The phrase to use in a select list. If there is a table alias, the value will be
